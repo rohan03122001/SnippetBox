@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"log"
+	"net/http"
 )
 
 func main() {
@@ -13,7 +13,11 @@ func main() {
 
 	mux.HandleFunc("/", home)
 
+	fileServer := http.FileServer(http.Dir("./ui/static/"))
+	
+
 	//handler function
+	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
 	mux.HandleFunc("/snippet/view", snippetView)
 	mux.HandleFunc("/snippet/create", snippetCreate)
